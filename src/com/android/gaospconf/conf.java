@@ -79,7 +79,6 @@ public class conf extends Activity {
         final CheckBox Toggle_Gallery = (CheckBox) findViewById(R.id.gallery);
         final CheckBox Toggle_Interactive = (CheckBox) findViewById(R.id.interactive);
         final Spinner sampling = (Spinner) findViewById(R.id.sampling);
-        final Spinner sensorsampling = (Spinner) findViewById(R.id.sensorsampling);
         final Spinner CPUminfreq = (Spinner) findViewById(R.id.minfreq);
         CPUminfreq.setEnabled(false);
         final Spinner CPUmaxfreq = (Spinner) findViewById(R.id.maxfreq);
@@ -92,8 +91,7 @@ public class conf extends Activity {
         final EditText memory6_edit = (EditText) findViewById(R.id.memory6);
         final EditText lcddensity = (EditText) findViewById(R.id.lcddensity);
         TextView Descswap = (TextView) findViewById(R.id.Textswap);
-		TextView Descsampling = (TextView) findViewById(R.id.Textsampling);
-		TextView Descsensors = (TextView) findViewById(R.id.Textsensors);
+		TextView Descsampling = (TextView) findViewById(R.id.Textsampling);	
 		TextView Descminfreq = (TextView) findViewById(R.id.Textminfreq);
 		TextView Descmaxfreq = (TextView) findViewById(R.id.Textmaxfreq);
 		TextView Descinteractive = (TextView) findViewById(R.id.Textinteractive);
@@ -322,11 +320,6 @@ public class conf extends Activity {
 			case 787200 : CPUmaxfreq.setSelection(17); break;
 			case 796800 : CPUmaxfreq.setSelection(18); break;
 		}
-		switch (sensors_sampling) {
-			case 0 : sensorsampling.setSelection(0); break;
-			case 1 : sensorsampling.setSelection(1); break;
-			case 2 : sensorsampling.setSelection(2); break;
-		}
 		if (interactive == true) {
 			Toggle_Interactive.setChecked(true);
 			sampling.setEnabled(false);
@@ -366,17 +359,6 @@ public class conf extends Activity {
 	    	alertbox.show();
 	   		}
 	    });
-		Descsensors.setOnClickListener(new View.OnClickListener() {
-    	public void onClick(View v){ 	
-    		alertbox.setTitle(R.string.TVsensors);
-    		alertbox.setMessage(R.string.sensors);
-            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                }
-            });
-    		alertbox.show();
-    		}
-        });
 		Descssh.setOnClickListener(new View.OnClickListener() {
     	public void onClick(View v){ 	
     		alertbox.setTitle(R.string.TVssh);
@@ -656,7 +638,6 @@ public class conf extends Activity {
 				Toggle_Renice.setChecked(true);
 				Toggle_Prov.setChecked(true);
 				Toggle_VNC.setChecked(false);
-				sensorsampling.setSelection(0);
 				CPUminfreq.setSelection(1);
 				CPUmaxfreq.setSelection(8);
 				Toggle_Swap.setChecked(false);
@@ -853,13 +834,7 @@ public class conf extends Activity {
 					}
 					out.println("maxfreq=" + finalmaxfreq);
 					out.println(" ");
-					
-					// Copy Sensors setting to conf file
-					out.println("# Sensors sampling rate");
-					out.println("# Set to 0 to eco mode, 1 to mixte mode, 2 to Performance mode");
-					out.println("sensors_sampling=" + sensorsampling.getSelectedItemPosition());
-					out.println(" ");
-					
+								
 					// Copy minfree settings to conf file
 					out.println("# Minfree settings");
 					out.println("mem1=" + Integer.parseInt(memory1_edit.getText().toString())*1024/4);
